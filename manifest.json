@@ -1,13 +1,17 @@
 {
   "manifest_version": 1,
-  "name": "FXRPG",
+  "name": "Cutscene Plugin",
   "version": "1.0.0",
-  "description": "Extensão de ficha de personagem customizada para RPG.",
+  "description": "Extensão de visualização de cutscenes para RPG.",
   "author": "pintice",
   "homepage_url": "https://fxrpg.vercel.app/",
-  "background": {
-    "url": "https://fxrpg.vercel.app/background.js"
+  "background_url": "https://fxrpg.vercel.app/background.js",
+  "action": {
+    "title": "Cutscene Plugin",
+    "icon": "/icon.png",
+    "popover": "/index.html",
+    "width": 400,
+    "height": 600
   },
-  "action": "popover",
-  "icon": "icon.png"
+  "icon": "/icon.png"
 }
