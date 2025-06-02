@@ -1,10 +1,13 @@
 {
   "manifest_version": 1,
-  "name": "Cutscene Viewer",
+  "name": "FXRPG",
   "version": "1.0.0",
-  "description": "Extensão para mostrar vídeos cinematográficos com som aos jogadores.",
+  "description": "Extensão de ficha de personagem customizada para RPG.",
   "author": "pintice",
-  "icon": "icon.png",
-  "type": "plugin",
-  "action": "index.html"
+  "homepage_url": "https://fxrpg.vercel.app/",
+  "background": {
+    "url": "https://fxrpg.vercel.app/background.js"
+  },
+  "action": "popover",
+  "icon": "icon.png"
 }
