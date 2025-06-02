@@ -9,7 +9,6 @@
   "action": {
     "title": "Cutscene Viewer",
     "icon": "icon.png",
-    "entry": "index.html",
     "popover": "index.html"
   }
 }
