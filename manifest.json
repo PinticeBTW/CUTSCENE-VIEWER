@@ -6,12 +6,6 @@
   "author": "pintice",
   "homepage_url": "https://fxrpg.vercel.app/",
   "background_url": "https://fxrpg.vercel.app/background.js",
-  "action": {
-    "title": "Cutscene Plugin",
-    "icon": "/icon.png",
-    "popover": "/index.html",
-    "width": 400,
-    "height": 600
-  },
-  "icon": "/icon.png"
+  "action": "https://pinticebtw.github.io/CUTSCENE-VIEWER/index.html",
+  "icon": "https://pinticebtw.github.io/CUTSCENE-VIEWER/icon.png"
 }
