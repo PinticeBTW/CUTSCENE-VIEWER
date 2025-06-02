@@ -5,6 +5,7 @@
   "description": "Extensão para mostrar vídeos cinematográficos com som aos jogadores.",
   "author": "pintice",
   "icon": "icon.png",
+  "type": "plugin",     
   "action": {
     "title": "Cutscene Viewer",
     "icon": "icon.png",
