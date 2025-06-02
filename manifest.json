@@ -1,10 +1,11 @@
 {
-  "id": "cutscene-plugin",
   "name": "CUTSCENE VIEWER",
-  "description": "Plugin para mostrar vídeos cinematográficos com som a todos os players.",
-  "entry": "https://pinticebtw.github.io/CUTSCENE-VIEWER/index.html",
-  "icon": "https://pinticebtw.github.io/CUTSCENE-VIEWER/icon.png",
   "version": "1.0.0",
-  "type": "plugin",
-  "manifest_version": 1
+  "manifest_version": 1,
+  "description": "Plugin para mostrar vídeos cinematográficos com som a todos os players.",
+  "icon": "https://pinticebtw.github.io/CUTSCENE-VIEWER/icon.png",
+  "action": {
+    "type": "overlay",
+    "url": "https://pinticebtw.github.io/CUTSCENE-VIEWER/index.html"
+  }
 }
