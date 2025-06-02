@@ -6,9 +6,5 @@
   "author": "pintice",
   "icon": "icon.png",
   "type": "plugin",
-  "action": {
-    "title": "Cutscene Viewer",
-    "icon": "icon.png",
-    "popover": "index.html"
-  }
+  "action": "index.html"
 }
