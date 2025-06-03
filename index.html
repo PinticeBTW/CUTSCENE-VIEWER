@@ -5,40 +5,83 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CUTSCENE Plugin - Teste</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    #gmUI, #playerUI {
+      display: none;
+    }
+    #videoContainer {
+      display: none;
+      margin-top: 16px;
+      max-width: 600px;
+    }
+    #cutsceneVideo {
+      width: 100%;
+      height: auto;
+      background: black;
+      border-radius: 8px;
+    }
+  </style>
 </head>
 <body>
   <h1>🎬 CUTSCENE TEST</h1>
 
-  <input id="videoURL" placeholder="Cola aqui o link do vídeo (.mp4 público)" />
-  <br>
-  <button onclick="launchCutscene()">Lançar Cutscene</button>
+  <div id="gmUI">
+    <input id="videoURL" placeholder="Cola aqui o link do vídeo (.mp4 público)" />
+    <br />
+    <button id="launchBtn">Lançar Cutscene</button>
+  </div>
+
+  <div id="playerUI">
+    <p>Espera o mestre lançar a cutscene...</p>
+  </div>
 
   <div id="videoContainer">
     <video id="cutsceneVideo" controls autoplay></video>
   </div>
 
-  <script>
-    function launchCutscene() {
-      const url = document.getElementById("videoURL").value;
+  <script type="module">
+    import { getContext, useSyncState } from "https://cdn.owlbear.rodeo/sdk/sdk.js";
+
+    (async () => {
+      const { isHost } = await getContext();
+      const cutsceneState = useSyncState("cutscene-video", null);
+
+      const gmUI = document.getElementById("gmUI");
+      const playerUI = document.getElementById("playerUI");
+      const launchBtn = document.getElementById("launchBtn");
+      const input = document.getElementById("videoURL");
       const video = document.getElementById("cutsceneVideo");
-      const container = document.getElementById("videoContainer");
+      const videoContainer = document.getElementById("videoContainer");
 
-      if (!url) {
-        alert("Insere um link de vídeo válido!");
-        return;
+      if (isHost) {
+        gmUI.style.display = "block";
+      } else {
+        playerUI.style.display = "block";
       }
 
-      video.src = url;
-      container.style.display = "flex";
-      video.play();
+      launchBtn.addEventListener("click", () => {
+        const url = input.value.trim();
+        if (!url.endsWith(".mp4")) {
+          alert("Tem de ser um vídeo .mp4");
+          return;
+        }
+        cutsceneState.set(url);
+      });
 
-      // Tentar fullscreen automático
-      if (container.requestFullscreen) {
-        container.requestFullscreen();
-      } else if (container.webkitRequestFullscreen) {
-        container.webkitRequestFullscreen();
-      }
-    }
+      cutsceneState.subscribe(url => {
+        if (!url) {
+          video.pause();
+          video.src = "";
+          videoContainer.style.display = "none";
+          return;
+        }
+        video.src = url;
+        video.load();
+        video.muted = false;
+        video.play();
+        videoContainer.style.display = "block";
+      });
+    })();
   </script>
 </body>
 </html>
