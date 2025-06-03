@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CUTSCENE Plugin - Teste</title>
+  <title>CUTSCENE Viewer</title>
   <link rel="stylesheet" href="style.css" />
   <style>
     #gmUI, #playerUI {
@@ -23,7 +23,7 @@
   </style>
 </head>
 <body>
-  <h1>🎬 CUTSCENE TEST</h1>
+  <h1>🎬 CUTSCENE VIEWER</h1>
 
   <div id="gmUI">
     <input id="videoURL" placeholder="Cola aqui o link do vídeo (.mp4 público)" />
@@ -55,7 +55,9 @@
 
       if (isHost) {
         gmUI.style.display = "block";
+        playerUI.style.display = "none";
       } else {
+        gmUI.style.display = "none";
         playerUI.style.display = "block";
       }
 
