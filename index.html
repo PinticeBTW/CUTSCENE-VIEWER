@@ -21,6 +21,10 @@
     display: none;
   }
 
+  #videoContainer {
+    display: none;
+  }
+
   #videoContainer.fade-in {
     animation: fadeIn 1s ease-in forwards;
   }
@@ -71,15 +75,35 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 cutsceneState.subscribe(url => {
-  if (!url) return;
-
   const video = document.getElementById("cutsceneVideo");
   const container = document.getElementById("videoContainer");
+  if (!url) {
+    // No URL: stop and hide video
+    video.pause();
+    video.src = "";
+    container.style.display = "none";
+    container.classList.remove("fade-in");
+    return;
+  }
+
+  // A valid URL: load, play, and show with fade-in
   video.src = url;
   video.load();
   video.play();
+  container.style.display = "block";
   container.classList.add("fade-in");
 });
+
+function closeCutscene() {
+  // Reset shared state so all clients stop the video
+  cutsceneState.set(null);
+  // Pause locally and clear the video source
+  const video = document.getElementById("cutsceneVideo");
+  const container = document.getElementById("videoContainer");
+  video.pause();
+  video.src = "";
+  container.classList.remove("fade-in");
+}
   </script>
 </body>
 </html>
