@@ -8,8 +8,8 @@
   "icon": "/icon.png",
   "action": {
     "title": "Cutscene Viewer",
-    "icon": "https://pinticebtw.github.io/CUTSCENE-VIEWER/icon.png",
-    "popover": "https://pinticebtw.github.io/CUTSCENE-VIEWER/index.html",
+    "icon": "/icon.png",
+    "popover": "/index.html",
     "height": 700,
     "width": 500
   }
