@@ -8,6 +8,7 @@
   "icon": "https://pinticebtw.github.io/CUTSCENE-VIEWER/icon.png",
   "action": {
     "type": "overlay",
+    "title": "Cutscene Plugin",
     "url": "https://pinticebtw.github.io/CUTSCENE-VIEWER/index.html",
     "icon": "https://pinticebtw.github.io/CUTSCENE-VIEWER/icon.png"
   }
