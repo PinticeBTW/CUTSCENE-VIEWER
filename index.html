@@ -4,44 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CUTSCENE Plugin - Teste</title>
-  <style>
-    #closeBtn {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: rgba(255, 50, 50, 0.8);
-      border: none;
-      color: white;
-      font-size: 1.5em;
-      padding: 10px 15px;
-      border-radius: 8px;
-      cursor: pointer;
-      z-index: 10000;
-      display: none;
-    }
-    #videoContainer {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: black;
-      padding: 10px;
-      border-radius: 8px;
-      z-index: 9000;
-    }
-    #videoContainer.fade-in {
-      animation: fadeIn 1s ease-in forwards;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    video {
-      max-width: 80vw;
-      max-height: 80vh;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <h1>🎬 CUTSCENE VIEWER</h1>
