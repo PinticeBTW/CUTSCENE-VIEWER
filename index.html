@@ -1,3 +1,4 @@
+<!-- Último push: sincronização e reprodução automática de vídeo para todos os jogadores -->
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
@@ -47,7 +48,9 @@
   import { getContext, useSyncState } from "https://cdn.owlbear.rodeo/sdk.js";
 
   const { extension, isHost } = await getContext();
-  const cutsceneState = useSyncState("cutscene-video", null, handleStateUpdate);
+  const cutsceneState = useSyncState("cutscene-video", null);
+  
+  cutsceneState.subscribe(handleStateUpdate);
 
   const input = document.getElementById("videoURL");
   const launchBtn = document.querySelector("button#launchBtn");
