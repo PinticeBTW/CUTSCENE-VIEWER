@@ -40,52 +40,48 @@
   </div>
 
   <script type="module">
-    import { getContext, useSyncState } from "https://cdn.owlbear.rodeo/sdk/sdk.js";
+  import { getContext, useSyncState } from "https://cdn.jsdelivr.net/gh/owlbear-rodeo/sdk@latest/sdk.js";
 
-    (async () => {
-      const { isHost } = await getContext();
-      console.log("isHost:", isHost); // <-- debug aqui
-      const cutsceneState = useSyncState("cutscene-video", null);
+  (async () => {
+    const { isHost } = await getContext();
+    const cutsceneState = useSyncState("cutscene-video", null);
 
-      const gmUI = document.getElementById("gmUI");
-      const playerUI = document.getElementById("playerUI");
-      const launchBtn = document.getElementById("launchBtn");
-      const input = document.getElementById("videoURL");
-      const video = document.getElementById("cutsceneVideo");
-      const videoContainer = document.getElementById("videoContainer");
+    const gmUI = document.getElementById("gmUI");
+    const playerUI = document.getElementById("playerUI");
+    const launchBtn = document.getElementById("launchBtn");
+    const input = document.getElementById("videoURL");
+    const video = document.getElementById("cutsceneVideo");
+    const videoContainer = document.getElementById("videoContainer");
 
-      // Mostrar UI só para quem é GM
-      if (isHost) {
-        gmUI.style.display = "block";
-        playerUI.style.display = "none";
-      } else {
-        gmUI.style.display = "none";
-        playerUI.style.display = "block";
+    if (isHost) {
+      gmUI.style.display = "block";
+      playerUI.style.display = "none";
+    } else {
+      gmUI.style.display = "none";
+      playerUI.style.display = "block";
+    }
+
+    launchBtn.addEventListener("click", () => {
+      const url = input.value.trim();
+      if (!url.endsWith(".mp4")) {
+        alert("Tem de ser um vídeo .mp4");
+        return;
       }
+      cutsceneState.set(url);
+    });
 
-      launchBtn.addEventListener("click", () => {
-        const url = input.value.trim();
-        if (!url.endsWith(".mp4")) {
-          alert("Tem de ser um vídeo .mp4");
-          return;
-        }
-        cutsceneState.set(url);
-      });
-
-      cutsceneState.subscribe(url => {
-        if (!url) {
-          video.pause();
-          video.src = "";
-          videoContainer.style.display = "none";
-          return;
-        }
-        video.src = url;
-        video.load();
-        video.muted = false;
-        video.play();
-        videoContainer.style.display = "block";
-      });
-    })();
-  </script>
-</body>
-</html>
+    cutsceneState.subscribe(url => {
+      if (!url) {
+        video.pause();
+        video.src = "";
+        videoContainer.style.display = "none";
+        return;
+      }
+      video.src = url;
+      video.load();
+      video.muted = false;
+      video.play();
+      videoContainer.style.display = "block";
+    });
+  })();
+</script>
