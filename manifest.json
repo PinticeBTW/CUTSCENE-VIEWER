@@ -5,13 +5,12 @@
   "description": "Extensão de visualização de cutscenes para RPG.",
   "author": "pintice",
   "homepage_url": "https://pinticebtw.github.io/CUTSCENE-VIEWER/",
-  "icon": "https://pinticebtw.github.io/CUTSCENE-VIEWER/icon.png",
+  "icon": "/icon.png",
   "action": {
-    "type": "overlay",
-    "popover": {
-      "title": "Cutscene Plugin",
-      "url": "https://pinticebtw.github.io/CUTSCENE-VIEWER/index.html",
-      "icon": "https://pinticebtw.github.io/CUTSCENE-VIEWER/icon.png"
-    }
+    "title": "Cutscene Viewer",
+    "icon": "/icon.png",
+    "popover": "/index.html",
+    "width": 500,
+    "height": 400
   }
 }
