@@ -53,6 +53,7 @@
       const video = document.getElementById("cutsceneVideo");
       const videoContainer = document.getElementById("videoContainer");
 
+      // Mostrar UI certa para GM e Players
       if (isHost) {
         gmUI.style.display = "block";
         playerUI.style.display = "none";
@@ -61,6 +62,7 @@
         playerUI.style.display = "block";
       }
 
+      // Limpar input e esconder vídeo para players
       if (!isHost) {
         input.value = "";
         videoContainer.style.display = "none";
@@ -68,6 +70,7 @@
         video.src = "";
       }
 
+      // GM clica no botão para lançar cutscene
       launchBtn.addEventListener("click", () => {
         const url = input.value.trim();
         if (!url.endsWith(".mp4")) {
@@ -77,6 +80,7 @@
         cutsceneState.set(url);
       });
 
+      // Atualizar vídeo para todos quando o estado mudar
       cutsceneState.subscribe(url => {
         if (!url) {
           video.pause();
