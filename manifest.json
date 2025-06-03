@@ -4,8 +4,11 @@
   "version": "1.0.0",
   "description": "Extensão de visualização de cutscenes para RPG.",
   "author": "pintice",
-  "homepage_url": "https://fxrpg.vercel.app/",
-  "background_url": "https://fxrpg.vercel.app/background.js",
-  "action": "https://pinticebtw.github.io/CUTSCENE-VIEWER/index.html",
-  "icon": "https://pinticebtw.github.io/CUTSCENE-VIEWER/icon.png"
+  "homepage_url": "https://pinticebtw.github.io/CUTSCENE-VIEWER/",
+  "icon": "https://pinticebtw.github.io/CUTSCENE-VIEWER/icon.png",
+  "action": {
+    "type": "overlay",
+    "url": "https://pinticebtw.github.io/CUTSCENE-VIEWER/index.html",
+    "icon": "https://pinticebtw.github.io/CUTSCENE-VIEWER/icon.png"
+  }
 }
