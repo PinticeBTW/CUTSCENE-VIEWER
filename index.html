@@ -2,61 +2,43 @@
 <html lang="pt-PT">
 <head>
   <meta charset="UTF-8" />
-  <title>CUTSCENE Plugin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CUTSCENE Plugin - Teste</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="container">
-    <h1>🎬 CUTSCENE VIEWER</h1>
-    <input id="videoURL" placeholder="Cola aqui o link do vídeo (.mp4 público)" autocomplete="off" />
-    <button id="launchBtn">Lançar Cutscene</button>
+  <h1>🎬 CUTSCENE TEST</h1>
 
-    <div id="videoContainer" style="display:none;">
-      <video id="cutsceneVideo" controls autoplay muted playsinline></video>
-    </div>
+  <input id="videoURL" placeholder="Cola aqui o link do vídeo (.mp4 público)" />
+  <br>
+  <button onclick="launchCutscene()">Lançar Cutscene</button>
+
+  <div id="videoContainer">
+    <video id="cutsceneVideo" controls autoplay></video>
   </div>
 
-  <script type="module">
-    import { getContext, useSyncState } from "https://cdn.owlbear.rodeo/0.0.61/sdk.js";
-
-    (async () => {
-      const { isHost } = await getContext();
-      const cutsceneState = useSyncState("cutscene-video", null);
-
-      const input = document.getElementById("videoURL");
-      const launchBtn = document.getElementById("launchBtn");
+  <script>
+    function launchCutscene() {
+      const url = document.getElementById("videoURL").value;
       const video = document.getElementById("cutsceneVideo");
       const container = document.getElementById("videoContainer");
 
-      if (!isHost) {
-        input.style.display = "none";
-        launchBtn.style.display = "none";
+      if (!url) {
+        alert("Insere um link de vídeo válido!");
+        return;
       }
 
-      launchBtn.addEventListener("click", () => {
-        if (!isHost) return alert("Só o GM pode lançar a cutscene.");
-        const url = input.value.trim();
-        if (!url.endsWith(".mp4")) {
-          alert("Tem de ser um vídeo .mp4");
-          return;
-        }
-        cutsceneState.set(url);
-      });
+      video.src = url;
+      container.style.display = "flex";
+      video.play();
 
-      cutsceneState.subscribe((url) => {
-        if (!url) {
-          video.pause();
-          video.src = "";
-          container.style.display = "none";
-          return;
-        }
-        video.src = url;
-        video.load();
-        video.muted = false;
-        video.play();
-        container.style.display = "block";
-      });
-    })();
+      // Tentar fullscreen automático
+      if (container.requestFullscreen) {
+        container.requestFullscreen();
+      } else if (container.webkitRequestFullscreen) {
+        container.webkitRequestFullscreen();
+      }
+    }
   </script>
 </body>
 </html>
