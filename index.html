@@ -4,106 +4,132 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CUTSCENE Plugin - Teste</title>
-  <link rel="stylesheet" href="style.css" />
   <style>
-  #closeBtn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: rgba(255, 50, 50, 0.8);
-    border: none;
-    color: white;
-    font-size: 1.5em;
-    padding: 10px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    z-index: 10000;
-    display: none;
-  }
-
-  #videoContainer {
-    display: none;
-  }
-
-  #videoContainer.fade-in {
-    animation: fadeIn 1s ease-in forwards;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
+    #closeBtn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 50, 50, 0.8);
+      border: none;
+      color: white;
+      font-size: 1.5em;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 10000;
+      display: none;
+    }
+    #videoContainer {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: black;
+      padding: 10px;
+      border-radius: 8px;
+      z-index: 9000;
+    }
+    #videoContainer.fade-in {
+      animation: fadeIn 1s ease-in forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    video {
+      max-width: 80vw;
+      max-height: 80vh;
+    }
   </style>
 </head>
 <body>
   <h1>🎬 CUTSCENE VIEWER</h1>
-
-  <input id="videoURL" placeholder="Cola aqui o link do vídeo (.mp4 público)" />
-  <br>
-  <button id="launchBtn" style="display: inline-block;">Lançar Cutscene</button>
+  <input id="videoURL" placeholder="Cole aqui o link do vídeo (.mp4 público)" style="width: 300px;" />
+  <br><br>
+  <button id="launchBtn">Lançar Cutscene</button>
 
   <div id="videoContainer">
-    <video id="cutsceneVideo" autoplay muted playsinline></video>
+    <video id="cutsceneVideo" autoplay muted playsinline controls></video>
   </div>
   <button id="closeBtn" onclick="closeCutscene()">❌</button>
 
+  <!-- Logs para debug: verifique no Console -->
+  <script>
+    console.log(">>> HTML carregado");
+    document.addEventListener("DOMContentLoaded", () => {
+      console.log(">>> DOMContentLoaded");
+      console.log("Existe #videoContainer?", !!document.getElementById("videoContainer"));
+    });
+  </script>
+
   <script type="module">
-import { getContext, useSyncState } from "https://cdn.owlbear.rodeo/sdk.js";
+    import { getContext, useSyncState } from "https://cdn.owlbear.rodeo/sdk.js";
+    const { isHost } = await getContext();
+    console.log(">>> isHost =", isHost);
+    const cutsceneState = useSyncState("cutscene-video", null);
 
-const { isHost } = await getContext();
-const cutsceneState = useSyncState("cutscene-video", null);
+    window.addEventListener("DOMContentLoaded", () => {
+      const input = document.getElementById("videoURL");
+      const launchBtn = document.getElementById("launchBtn");
+      const closeBtn = document.getElementById("closeBtn");
 
-window.addEventListener("DOMContentLoaded", () => {
-  const input = document.getElementById("videoURL");
-  const launchBtn = document.getElementById("launchBtn");
-  const closeBtn = document.getElementById("closeBtn");
+      if (!isHost) {
+        input.style.display = "none";
+        launchBtn.style.display = "none";
+        closeBtn.style.display = "none";
+      } else {
+        closeBtn.style.display = "block";
+      }
 
-  if (!isHost) {
-    input.style.display = "none";
-    launchBtn.style.display = "none";
-    closeBtn.style.display = "none";
-  } else {
-    closeBtn.style.display = "block";
-  }
+      launchBtn.addEventListener("click", () => {
+        if (!isHost) return alert("Apenas o GM pode lançar a cutscene!");
+        const url = input.value.trim();
+        console.log("Clique → URL digitada:", url);
 
-  launchBtn.addEventListener("click", () => {
-    if (!isHost) return alert("Apenas o GM pode lançar a cutscene!");
-    const url = input.value.trim();
-    if (!url.endsWith(".mp4")) return alert("Insere um link de vídeo .mp4 válido!");
-    cutsceneState.set(url);
-  });
-});
+        if (!url.endsWith(".mp4")) {
+          alert("Insere um link de vídeo .mp4 válido!");
+          return;
+        }
 
-cutsceneState.subscribe(url => {
-  const video = document.getElementById("cutsceneVideo");
-  const container = document.getElementById("videoContainer");
-  if (!url) {
-    // No URL: stop and hide video
-    video.pause();
-    video.src = "";
-    container.style.display = "none";
-    container.classList.remove("fade-in");
-    return;
-  }
+        // Se quiser passar direto sem validação, comente a linha acima:
+        // if (!url.endsWith(".mp4")) return alert("Insere um link .mp4 válido!");
 
-  // A valid URL: load, play, and show with fade-in
-  video.src = url;
-  video.load();
-  video.play();
-  container.style.display = "block";
-  container.classList.add("fade-in");
-});
+        cutsceneState.set(url);
+        console.log(">> GM chamou cutsceneState.set(", url, ")");
+      });
+    });
 
-function closeCutscene() {
-  // Reset shared state so all clients stop the video
-  cutsceneState.set(null);
-  // Pause locally and clear the video source
-  const video = document.getElementById("cutsceneVideo");
-  const container = document.getElementById("videoContainer");
-  video.pause();
-  video.src = "";
-  container.classList.remove("fade-in");
-}
+    cutsceneState.subscribe(url => {
+      const video = document.getElementById("cutsceneVideo");
+      const container = document.getElementById("videoContainer");
+
+      if (!url) {
+        console.log(">> subscribe: url = null → escondendo vídeo");
+        video.pause();
+        video.src = "";
+        container.style.display = "none";
+        container.classList.remove("fade-in");
+        return;
+      }
+
+      console.log(">> subscribe: url recebido → exibindo vídeo:", url);
+      video.src = url;
+      video.load();
+      video.play();
+      container.style.display = "block";
+      container.classList.add("fade-in");
+    });
+
+    window.closeCutscene = function() {
+      console.log(">> closeCutscene() chamado");
+      cutsceneState.set(null);
+      const video = document.getElementById("cutsceneVideo");
+      const container = document.getElementById("videoContainer");
+      video.pause();
+      video.src = "";
+      container.classList.remove("fade-in");
+    }
   </script>
 </body>
 </html>
