@@ -39,7 +39,7 @@
   <button id="launchBtn" style="display: inline-block;">Lançar Cutscene</button>
 
   <div id="videoContainer">
-    <video id="cutsceneVideo" controls autoplay></video>
+    <video id="cutsceneVideo" autoplay muted playsinline></video>
   </div>
   <button id="closeBtn" onclick="closeCutscene()">❌</button>
 
@@ -52,10 +52,14 @@ const cutsceneState = useSyncState("cutscene-video", null);
 window.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("videoURL");
   const launchBtn = document.getElementById("launchBtn");
+  const closeBtn = document.getElementById("closeBtn");
 
   if (!isHost) {
     input.style.display = "none";
     launchBtn.style.display = "none";
+    closeBtn.style.display = "none";
+  } else {
+    closeBtn.style.display = "block";
   }
 
   launchBtn.addEventListener("click", () => {
@@ -66,53 +70,16 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Isto tem de estar fora do DOMContentLoaded para garantir que subscreve logo
 cutsceneState.subscribe(url => {
   if (!url) return;
 
-  const existing = document.getElementById("cutscene-overlay");
-  if (existing) existing.remove();
-
-  const overlay = document.createElement("div");
-  overlay.id = "cutscene-overlay";
-  overlay.style.position = "fixed";
-  overlay.style.top = 0;
-  overlay.style.left = 0;
-  overlay.style.width = "100vw";
-  overlay.style.height = "100vh";
-  overlay.style.backgroundColor = "black";
-  overlay.style.zIndex = 9999;
-
-  const video = document.createElement("video");
+  const video = document.getElementById("cutsceneVideo");
+  const container = document.getElementById("videoContainer");
   video.src = url;
-  video.controls = true;
-  video.autoplay = true;
-  video.style.width = "100%";
-  video.style.height = "100%";
-  video.style.objectFit = "contain";
-  video.setAttribute("playsinline", "true");
-
-  overlay.appendChild(video);
-  document.body.appendChild(overlay);
-
-  setTimeout(() => {
-    if (overlay.requestFullscreen) overlay.requestFullscreen();
-    else if (overlay.webkitRequestFullscreen) overlay.webkitRequestFullscreen();
-  }, 300);
-
-  function removeOverlay() {
-    if (document.fullscreenElement) document.exitFullscreen();
-    overlay.remove();
-    document.removeEventListener("keydown", onKeyDown);
-  }
-
-  function onKeyDown(e) {
-    if (e.key === "Escape") removeOverlay();
-  }
-
-  document.addEventListener("keydown", onKeyDown);
-  video.addEventListener("ended", removeOverlay);
+  video.load();
+  video.play();
+  container.classList.add("fade-in");
 });
-</script>
+  </script>
 </body>
 </html>
