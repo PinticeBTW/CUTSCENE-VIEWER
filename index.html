@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CUTSCENE Viewer</title>
+  <title>CUTSCENE Plugin - Teste</title>
   <link rel="stylesheet" href="style.css" />
   <style>
     #gmUI, #playerUI {
@@ -23,7 +23,7 @@
   </style>
 </head>
 <body>
-  <h1>🎬 CUTSCENE VIEWER</h1>
+  <h1>🎬 CUTSCENE TEST</h1>
 
   <div id="gmUI">
     <input id="videoURL" placeholder="Cola aqui o link do vídeo (.mp4 público)" />
@@ -32,7 +32,7 @@
   </div>
 
   <div id="playerUI">
-    <p>Espera o mestre lançar a cutscene...</p>
+    <p>Espera pelo mestre lançar a cutscene...</p>
   </div>
 
   <div id="videoContainer">
@@ -53,7 +53,7 @@
       const video = document.getElementById("cutsceneVideo");
       const videoContainer = document.getElementById("videoContainer");
 
-      // Mostra interface certa para GM e Players
+      // Mostrar UI só para quem é GM
       if (isHost) {
         gmUI.style.display = "block";
         playerUI.style.display = "none";
@@ -62,15 +62,6 @@
         playerUI.style.display = "block";
       }
 
-      // Limpa input e esconde vídeo para players
-      if (!isHost) {
-        input.value = "";
-        videoContainer.style.display = "none";
-        video.pause();
-        video.src = "";
-      }
-
-      // GM lança cutscene
       launchBtn.addEventListener("click", () => {
         const url = input.value.trim();
         if (!url.endsWith(".mp4")) {
@@ -80,7 +71,6 @@
         cutsceneState.set(url);
       });
 
-      // Quando o estado muda, todos atualizam o vídeo
       cutsceneState.subscribe(url => {
         if (!url) {
           video.pause();
