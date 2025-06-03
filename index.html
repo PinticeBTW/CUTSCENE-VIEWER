@@ -46,28 +46,48 @@
   <script>
     function launchCutscene() {
       const url = document.getElementById("videoURL").value;
-      const video = document.getElementById("cutsceneVideo");
-      const container = document.getElementById("videoContainer");
 
       if (!url) {
         alert("Insere um link de vídeo válido!");
         return;
       }
 
+      const video = document.createElement("video");
       video.src = url;
-      container.style.display = "flex";
-      container.classList.add("fade-in");
-      document.getElementById("closeBtn").style.display = "block";
-      video.play();
+      video.controls = true;
+      video.autoplay = true;
+      video.style.width = "100%";
+      video.style.height = "100%";
 
-      // Tentar fullscreen automático
-      if (container.requestFullscreen) {
-        container.requestFullscreen();
-      } else if (container.webkitRequestFullscreen) {
-        container.webkitRequestFullscreen();
+      const overlay = document.createElement("div");
+      overlay.style.position = "fixed";
+      overlay.style.top = 0;
+      overlay.style.left = 0;
+      overlay.style.width = "100vw";
+      overlay.style.height = "100vh";
+      overlay.style.backgroundColor = "black";
+      overlay.style.zIndex = 9999;
+      overlay.appendChild(video);
+
+      document.body.appendChild(overlay);
+
+      if (overlay.requestFullscreen) {
+        overlay.requestFullscreen();
+      } else if (overlay.webkitRequestFullscreen) {
+        overlay.webkitRequestFullscreen();
       }
 
-      video.onended = closeCutscene;
+      function removeOverlay() {
+        overlay.remove();
+        document.removeEventListener("keydown", onKeyDown);
+      }
+
+      function onKeyDown(e) {
+        if (e.key === "Escape") removeOverlay();
+      }
+
+      document.addEventListener("keydown", onKeyDown);
+      video.addEventListener("ended", removeOverlay);
     }
 
     function closeCutscene() {
