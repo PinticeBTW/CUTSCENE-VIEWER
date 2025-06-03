@@ -154,9 +154,6 @@ video {
 #videoContainer.fade-in {
   animation: zoomFade 0.8s ease forwards;
 }
-/* #playerUI {
-  display: block !important;
-  color: white;
-  font-size: 18px;
-  margin: 20px;
-} */
+#gmUI, #playerUI {
+  display: none;
+}
