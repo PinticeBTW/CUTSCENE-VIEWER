@@ -61,6 +61,13 @@
         playerUI.style.display = "block";
       }
 
+      if (!isHost) {
+        input.value = "";
+        videoContainer.style.display = "none";
+        video.pause();
+        video.src = "";
+      }
+
       launchBtn.addEventListener("click", () => {
         const url = input.value.trim();
         if (!url.endsWith(".mp4")) {
