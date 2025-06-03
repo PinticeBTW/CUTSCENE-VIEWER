@@ -5,11 +5,11 @@
   "description": "Extensão para mostrar vídeos cinematográficos com som aos jogadores.",
   "author": "pintice",
   "homepage_url": "https://pinticebtw.github.io/CUTSCENE-VIEWER/",
-  "icon": "/CUTSCENE-VIEWER/icon.png",
+  "icon": "/icon.png",
   "action": {
     "title": "Cutscene Viewer",
-    "icon": "/CUTSCENE-VIEWER/icon.png",
-    "popover": "/CUTSCENE-VIEWER/index.html",
+    "icon": "/icon.png",
+    "popover": "/",
     "height": 700,
     "width": 500
   }
