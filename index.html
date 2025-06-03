@@ -36,7 +36,7 @@
 
   <input id="videoURL" placeholder="Cola aqui o link do vídeo (.mp4 público)" />
   <br>
-  <button id="launchBtn">Lançar Cutscene</button>
+  <button id="launchBtn" style="display: inline-block;">Lançar Cutscene</button>
 
   <div id="videoContainer">
     <video id="cutsceneVideo" controls autoplay></video>
@@ -63,8 +63,8 @@
   function handleStateUpdate(url) {
     if (!url) return;
 
-    const existingOverlay = document.getElementById("cutscene-overlay");
-    if (existingOverlay) existingOverlay.remove();
+    const old = document.getElementById("cutscene-overlay");
+    if (old) old.remove();
 
     const overlay = document.createElement("div");
     overlay.id = "cutscene-overlay";
