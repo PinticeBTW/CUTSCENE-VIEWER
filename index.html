@@ -46,30 +46,32 @@
   <script type="module">
 import { getContext, useSyncState } from "https://cdn.owlbear.rodeo/sdk.js";
 
-const { extension, isHost } = await getContext();
+const { isHost } = await getContext();
 const cutsceneState = useSyncState("cutscene-video", null);
-cutsceneState.subscribe(handleStateUpdate);
 
-const input = document.getElementById("videoURL");
-const launchBtn = document.getElementById("launchBtn");
+window.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("videoURL");
+  const launchBtn = document.getElementById("launchBtn");
 
-if (!isHost) {
-  input.style.display = "none";
-  launchBtn.style.display = "none";
-}
+  if (!isHost) {
+    input.style.display = "none";
+    launchBtn.style.display = "none";
+  }
 
-launchBtn.addEventListener("click", () => {
-  if (!isHost) return alert("Apenas o GM pode lançar a cutscene!");
-  const url = input.value.trim();
-  if (!url.endsWith(".mp4")) return alert("Insere um link de vídeo .mp4 válido!");
-  cutsceneState.set(url);
+  launchBtn.addEventListener("click", () => {
+    if (!isHost) return alert("Apenas o GM pode lançar a cutscene!");
+    const url = input.value.trim();
+    if (!url.endsWith(".mp4")) return alert("Insere um link de vídeo .mp4 válido!");
+    cutsceneState.set(url);
+  });
 });
 
-function handleStateUpdate(url) {
+// Isto tem de estar fora do DOMContentLoaded para garantir que subscreve logo
+cutsceneState.subscribe(url => {
   if (!url) return;
 
-  const old = document.getElementById("cutscene-overlay");
-  if (old) old.remove();
+  const existing = document.getElementById("cutscene-overlay");
+  if (existing) existing.remove();
 
   const overlay = document.createElement("div");
   overlay.id = "cutscene-overlay";
@@ -89,11 +91,10 @@ function handleStateUpdate(url) {
   video.style.height = "100%";
   video.style.objectFit = "contain";
   video.setAttribute("playsinline", "true");
-  overlay.appendChild(video);
 
+  overlay.appendChild(video);
   document.body.appendChild(overlay);
 
-  // Tenta fullscreen
   setTimeout(() => {
     if (overlay.requestFullscreen) overlay.requestFullscreen();
     else if (overlay.webkitRequestFullscreen) overlay.webkitRequestFullscreen();
@@ -111,7 +112,7 @@ function handleStateUpdate(url) {
 
   document.addEventListener("keydown", onKeyDown);
   video.addEventListener("ended", removeOverlay);
-}
+});
 </script>
 </body>
 </html>
