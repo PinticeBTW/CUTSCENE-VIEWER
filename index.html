@@ -2,7 +2,6 @@
 <html lang="pt-PT">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CUTSCENE Plugin</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -13,12 +12,12 @@
     <button id="launchBtn">Lançar Cutscene</button>
 
     <div id="videoContainer" style="display:none;">
-      <video id="cutsceneVideo" autoplay muted playsinline></video>
+      <video id="cutsceneVideo" controls autoplay muted playsinline></video>
     </div>
   </div>
 
   <script type="module">
-    import { getContext, useSyncState } from "https://cdn.owlbear.rodeo/sdk.js";
+    import { getContext, useSyncState } from "https://cdn.owlbear.rodeo/0.0.61/sdk.js";
 
     (async () => {
       const { isHost } = await getContext();
