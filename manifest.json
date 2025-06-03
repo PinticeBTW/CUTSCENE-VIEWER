@@ -1,17 +1,17 @@
 {
-  "name": "Cutscene Plugin",
-  "version": "1.0.0",
   "manifest_version": 1,
+  "name": "Cutscene Viewer",
+  "version": "1.0.0",
+  "description": "Extensão para mostrar vídeos cinematográficos com som aos jogadores.",
   "author": "pintice",
   "homepage_url": "https://pinticebtw.github.io/CUTSCENE-VIEWER/",
   "icon": "/icon.png",
-  "description": "Extensão de visualização de cutscenes para RPG.",
   "action": {
     "title": "Cutscene Viewer",
     "icon": "/icon.png",
     "popover": "/index.html",
-    "height": 400,
+    "height": 700,
     "width": 500
   },
-  "background_url": "/index.html"
+  "background_url": "/background.html"
 }
