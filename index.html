@@ -36,69 +36,77 @@
 
   <input id="videoURL" placeholder="Cola aqui o link do vídeo (.mp4 público)" />
   <br>
-  <button onclick="launchCutscene()">Lançar Cutscene</button>
+  <button id="launchBtn">Lançar Cutscene</button>
 
   <div id="videoContainer">
     <video id="cutsceneVideo" controls autoplay></video>
   </div>
   <button id="closeBtn" onclick="closeCutscene()">❌</button>
 
-  <script>
-    function launchCutscene() {
-      const url = document.getElementById("videoURL").value;
+  <script type="module">
+  import { getContext, useSyncState } from "https://cdn.owlbear.rodeo/sdk.js";
 
-      if (!url) {
-        alert("Insere um link de vídeo válido!");
-        return;
-      }
+  const { extension, isHost } = await getContext();
+  const cutsceneState = useSyncState("cutscene-video", null, handleStateUpdate);
 
-      const video = document.createElement("video");
-      video.src = url;
-      video.controls = true;
-      video.autoplay = true;
-      video.style.width = "100%";
-      video.style.height = "100%";
+  const input = document.getElementById("videoURL");
+  const launchBtn = document.querySelector("button#launchBtn");
+  launchBtn.addEventListener("click", () => {
+    const url = input.value;
+    if (!url) return alert("Insere um link de vídeo válido!");
+    cutsceneState.set(url);
+  });
 
-      const overlay = document.createElement("div");
-      overlay.style.position = "fixed";
-      overlay.style.top = 0;
-      overlay.style.left = 0;
-      overlay.style.width = "100vw";
-      overlay.style.height = "100vh";
-      overlay.style.backgroundColor = "black";
-      overlay.style.zIndex = 9999;
-      overlay.appendChild(video);
+  function handleStateUpdate(url) {
+    if (!url) return;
 
-      document.body.appendChild(overlay);
+    const video = document.createElement("video");
+    video.src = url;
+    video.controls = true;
+    video.autoplay = true;
+    video.style.width = "100%";
+    video.style.height = "100%";
 
-      if (overlay.requestFullscreen) {
-        overlay.requestFullscreen();
-      } else if (overlay.webkitRequestFullscreen) {
-        overlay.webkitRequestFullscreen();
-      }
+    const overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.top = 0;
+    overlay.style.left = 0;
+    overlay.style.width = "100vw";
+    overlay.style.height = "100vh";
+    overlay.style.backgroundColor = "black";
+    overlay.style.zIndex = 9999;
+    overlay.appendChild(video);
 
-      function removeOverlay() {
-        overlay.remove();
-        document.removeEventListener("keydown", onKeyDown);
-      }
+    document.body.appendChild(overlay);
 
-      function onKeyDown(e) {
-        if (e.key === "Escape") removeOverlay();
-      }
+    setTimeout(() => {
+      if (overlay.requestFullscreen) overlay.requestFullscreen();
+      else if (overlay.webkitRequestFullscreen) overlay.webkitRequestFullscreen();
+    }, 300);
 
-      document.addEventListener("keydown", onKeyDown);
-      video.addEventListener("ended", removeOverlay);
+    function removeOverlay() {
+      if (document.fullscreenElement) document.exitFullscreen();
+      overlay.remove();
+      document.removeEventListener("keydown", onKeyDown);
     }
 
-    function closeCutscene() {
-      const container = document.getElementById("videoContainer");
-      const video = document.getElementById("cutsceneVideo");
-      container.style.display = "none";
-      document.getElementById("closeBtn").style.display = "none";
-      video.pause();
-      video.src = "";
-      container.classList.remove("fade-in");
+    function onKeyDown(e) {
+      if (e.key === "Escape") removeOverlay();
     }
-  </script>
+
+    document.addEventListener("keydown", onKeyDown);
+    video.addEventListener("ended", removeOverlay);
+  }
+
+  function closeCutscene() {
+    const container = document.getElementById("videoContainer");
+    const video = document.getElementById("cutsceneVideo");
+    container.style.display = "none";
+    document.getElementById("closeBtn").style.display = "none";
+    video.pause();
+    video.src = "";
+    container.classList.remove("fade-in");
+  }
+</script>
 </body>
 </html>
