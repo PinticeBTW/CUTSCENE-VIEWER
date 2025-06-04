@@ -44,7 +44,7 @@
 const { getContext, useSyncState } = sdk;
   (async () => {
     const { isHost } = await getContext();
-    console.log("É GM?", isHost);
+console.log("É GM?", isHost);
     const cutsceneState = useSyncState("cutscene-video", null);
 
     const gmUI = document.getElementById("gmUI");
