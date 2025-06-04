@@ -40,8 +40,8 @@
   </div>
 
   <script type="module">
-  import { getContext, useSyncState } from "https://esm.sh/@owlbear-rodeo/sdk@2?bundle";
-
+  import sdk from "https://esm.sh/@owlbear-rodeo/sdk@2?bundle";
+const { getContext, useSyncState } = sdk;
   (async () => {
     const { isHost } = await getContext();
     console.log("É GM?", isHost);
