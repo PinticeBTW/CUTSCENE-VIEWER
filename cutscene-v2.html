@@ -56,13 +56,12 @@ const { getContext, useSyncState } = sdk;
       const videoContainer = document.getElementById("videoContainer");
 
       if (isHost) {
-        gmUI.style.display = "block";
-        playerUI.style.display = "none";
-      } else {
-        gmUI.style.display = "none";
-        playerUI.style.display = "block";
-        videoContainer.style.display = "none";
-      }
+  gmUI.classList.add("show");
+  playerUI.classList.remove("show");
+} else {
+  gmUI.classList.remove("show");
+  playerUI.classList.add("show");
+}
 
       launchBtn.addEventListener("click", () => {
         const url = input.value.trim();
