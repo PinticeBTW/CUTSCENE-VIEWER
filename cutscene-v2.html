@@ -40,51 +40,53 @@
   </div>
 
   <script type="module">
-  import sdk from "https://cdn.jsdelivr.net/npm/@owlbear-rodeo/sdk@2";
-const { getContext, useSyncState } = sdk;
-  (async () => {
-    const { isHost } = await getContext();
-console.log("É GM?", isHost);
-    const cutsceneState = useSyncState("cutscene-video", null);
+    import { sdk } from "https://cdn.jsdelivr.net/npm/@owlbear-rodeo/sdk@2";
+    const { getContext, useSyncState } = sdk;
 
-    const gmUI = document.getElementById("gmUI");
-    const playerUI = document.getElementById("playerUI");
-    const launchBtn = document.getElementById("launchBtn");
-    const input = document.getElementById("videoURL");
-    const video = document.getElementById("cutsceneVideo");
-    const videoContainer = document.getElementById("videoContainer");
+    (async () => {
+      const { isHost } = await getContext();
+      console.log("É GM?", isHost);
+      const cutsceneState = useSyncState("cutscene-video", null);
 
-    if (isHost) {
-  gmUI.style.display = "block";
-  playerUI.style.display = "none";
-} else {
-  gmUI.style.display = "none";
-  playerUI.style.display = "block";
-  // Impede os players de verem o vídeo antes de o GM lançar
-  videoContainer.style.display = "none";
-}
+      const gmUI = document.getElementById("gmUI");
+      const playerUI = document.getElementById("playerUI");
+      const launchBtn = document.getElementById("launchBtn");
+      const input = document.getElementById("videoURL");
+      const video = document.getElementById("cutsceneVideo");
+      const videoContainer = document.getElementById("videoContainer");
 
-    launchBtn.addEventListener("click", () => {
-      const url = input.value.trim();
-      if (!url.endsWith(".mp4")) {
-        alert("Tem de ser um vídeo .mp4");
-        return;
-      }
-      cutsceneState.set(url);
-    });
-
-    cutsceneState.subscribe(url => {
-      if (!url) {
-        video.pause();
-        video.src = "";
+      if (isHost) {
+        gmUI.style.display = "block";
+        playerUI.style.display = "none";
+      } else {
+        gmUI.style.display = "none";
+        playerUI.style.display = "block";
         videoContainer.style.display = "none";
-        return;
       }
-      video.src = url;
-      video.load();
-      video.muted = false;
-      video.play();
-      videoContainer.style.display = "block";
-    });
-  })();
-</script>
+
+      launchBtn.addEventListener("click", () => {
+        const url = input.value.trim();
+        if (!url.endsWith(".mp4")) {
+          alert("Tem de ser um vídeo .mp4");
+          return;
+        }
+        cutsceneState.set(url);
+      });
+
+      cutsceneState.subscribe(url => {
+        if (!url) {
+          video.pause();
+          video.src = "";
+          videoContainer.style.display = "none";
+          return;
+        }
+        video.src = url;
+        video.load();
+        video.muted = false;
+        video.play();
+        videoContainer.style.display = "block";
+      });
+    })();
+  </script>
+</body>
+</html>
