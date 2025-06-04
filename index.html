@@ -54,12 +54,14 @@
     const videoContainer = document.getElementById("videoContainer");
 
     if (isHost) {
-      gmUI.style.display = "block";
-      playerUI.style.display = "none";
-    } else {
-      gmUI.style.display = "none";
-      playerUI.style.display = "block";
-    }
+  gmUI.style.display = "block";
+  playerUI.style.display = "none";
+} else {
+  gmUI.style.display = "none";
+  playerUI.style.display = "block";
+  // Impede os players de verem o vídeo antes de o GM lançar
+  videoContainer.style.display = "none";
+}
 
     launchBtn.addEventListener("click", () => {
       const url = input.value.trim();
