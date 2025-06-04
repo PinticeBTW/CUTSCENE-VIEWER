@@ -106,7 +106,7 @@ video {
 }
 
 @keyframes zoomFade {
-  from { opacity: 0; transform: scale(1.1); }
+  from { opacity: 0; transform: scale(1.05); }
   to { opacity: 1; transform: scale(1); }
 }
 
@@ -146,14 +146,12 @@ video {
   font-size: 1.4em;
   cursor: pointer;
 }
-@keyframes zoomFade {
-  from { opacity: 0; transform: scale(1.05); }
-  to { opacity: 1; transform: scale(1); }
+
+/* Corrigido: retira o bloqueio permanente */
+#gmUI, #playerUI {
+  display: none; /* início: escondido */
 }
 
-#videoContainer.fade-in {
-  animation: zoomFade 0.8s ease forwards;
-}
-#gmUI, #playerUI {
-  display: none;
+.show {
+  display: block !important; /* aparece quando JS adicionar classe */
 }
