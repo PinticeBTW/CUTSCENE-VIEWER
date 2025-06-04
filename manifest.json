@@ -9,7 +9,7 @@
   "action": {
     "title": "Cutscene Viewer",
     "icon": "https://pinticebtw.github.io/CUTSCENE-VIEWER/icon.png",
-    "popover": "https://pinticebtw.github.io/CUTSCENE-VIEWER/",
+    "popover": "https://pinticebtw.github.io/CUTSCENE-VIEWER/cutscene.html",
     "height": 700,
     "width": 500
   }
