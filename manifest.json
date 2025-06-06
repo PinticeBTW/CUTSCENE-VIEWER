@@ -1,16 +1,29 @@
 {
-  "manifest_version": 1,
   "name": "Cutscene Viewer",
-  "version": "1.0.0",
-  "description": "Extensão para mostrar vídeos cinematográficos com som aos jogadores.",
+  "version": "3.0.0",
+  "manifest_version": 1,
   "author": "pintice",
-  "homepage_url": "https://pinticebtw.github.io/CUTSCENE-VIEWER/",
-  "icon": "https://pinticebtw.github.io/CUTSCENE-VIEWER/icon.png",
+  "icon": "/assets/clapperboard.svg",
   "action": {
     "title": "Cutscene Viewer",
-    "icon": "https://pinticebtw.github.io/CUTSCENE-VIEWER/icon.png",
-   "popover": "https://pinticebtw.github.io/CUTSCENE-VIEWER/cutscene-v2.html",
-    "height": 700,
-    "width": 500
-  }
+    "icon": "/assets/clapperboard.svg",
+    "popover": "/handouts/teta.html",
+    "height": 500,
+    "width": 300
+  },
+  "description": "Send synced cutscenes to your players.",
+  "permissions": [
+    {
+      "name": "clipboard-write",
+      "reason": "Copy links to clipboard"
+    },
+    {
+      "name": "clipboard-read",
+      "reason": "Paste links from clipboard"
+    },
+    {
+      "name": "autoplay",
+      "reason": "Autoplay videos when shared"
+    }
+  ]
 }

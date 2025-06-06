@@ -1,90 +1,22 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CUTSCENE</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    #gmUI, #playerUI {
-      display: none;
-    }
-    #videoContainer {
-      display: none;
-      margin-top: 16px;
-      max-width: 600px;
-    }
-    #cutsceneVideo {
-      width: 100%;
-      height: auto;
-      background: black;
-      border-radius: 8px;
-    }
-  </style>
+  <title>Cutscene Viewer</title>
+  <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
-  <h1>🎬 CUTSCENE VIEWER</h1>
-
-  <div id="gmUI">
-    <input id="videoURL" placeholder="Cola aqui o link do vídeo (.mp4 público)" />
-    <br />
-    <button id="launchBtn">Começar Cutscene</button>
+  <div id="gmUI" style="display: none;">
+    <h2>🎬 Cutscene Viewer (GM)</h2>
+    <input id="videoUrl" type="text" placeholder="MP4 video URL..." />
+    <button id="sendBtn">Enviar cutscene</button>
   </div>
 
-  <div id="playerUI">
-    <p>Espera que o mestre meta a cutscene...</p>
-  </div>
-
-  <div id="videoContainer">
+  <div id="playerUI" style="display: none;">
+    <h2>🎥 Cutscene</h2>
     <video id="cutsceneVideo" controls autoplay></video>
   </div>
 
-  <script type="module">
-  import { getContext, useSyncState } from "https://esm.sh/@owlbear-rodeo/sdk@2?bundle";
-
-  (async () => {
-    const { isHost } = await getContext();
-    console.log("É GM?", isHost);
-    const cutsceneState = useSyncState("cutscene-video", null);
-
-    const gmUI = document.getElementById("gmUI");
-    const playerUI = document.getElementById("playerUI");
-    const launchBtn = document.getElementById("launchBtn");
-    const input = document.getElementById("videoURL");
-    const video = document.getElementById("cutsceneVideo");
-    const videoContainer = document.getElementById("videoContainer");
-
-    if (isHost) {
-  gmUI.style.display = "block";
-  playerUI.style.display = "none";
-} else {
-  gmUI.style.display = "none";
-  playerUI.style.display = "block";
-  // Impede os players de verem o vídeo antes de o GM lançar
-  videoContainer.style.display = "none";
-}
-
-    launchBtn.addEventListener("click", () => {
-      const url = input.value.trim();
-      if (!url.endsWith(".mp4")) {
-        alert("Tem de ser um vídeo .mp4");
-        return;
-      }
-      cutsceneState.set(url);
-    });
-
-    cutsceneState.subscribe(url => {
-      if (!url) {
-        video.pause();
-        video.src = "";
-        videoContainer.style.display = "none";
-        return;
-      }
-      video.src = url;
-      video.load();
-      video.muted = false;
-      video.play();
-      videoContainer.style.display = "block";
-    });
-  })();
-</script>
+  <script src="/script.js" type="module"></script>
+</body>
+</html>
