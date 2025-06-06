@@ -1,4 +1,4 @@
-import OBR from "@owlbear-rodeo/sdk";
+import OBR from "https://unpkg.com/@owlbear-rodeo/sdk@1.3.0";
 
 const gmUI = document.getElementById("gmUI");
 const playerUI = document.getElementById("playerUI");
