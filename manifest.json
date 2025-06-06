@@ -3,11 +3,11 @@
   "version": "3.0.0",
   "manifest_version": 1,
   "author": "pintice",
-  "icon": "/assets/clapperboard.svg",
+  "icon": "/icon.png",
   "action": {
     "title": "Cutscene Viewer",
-    "icon": "/assets/clapperboard.svg",
-    "popover": "/handouts/teta.html",
+    "icon": "/icon.png",
+    "popover": "/cutscene.html",
     "height": 500,
     "width": 300
   },
